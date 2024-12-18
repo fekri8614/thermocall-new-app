@@ -1,0 +1,58 @@
+name: thermocall_new2
+description: "A new Flutter project."
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.5.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.8
+  http: ^1.2.2
+  get: ^4.6.6
+  dio: ^5.6.0
+  flutter_cache_manager: ^3.4.1
+  vibration: ^1.9.0
+  dotted_line: ^3.2.2
+  shared_preferences: ^2.3.1
+  provider: ^6.1.2
+  path_provider: ^2.1.4
+  fluttertoast: ^8.2.8
+  another_flushbar: ^1.12.30
+  flutter_bloc: ^8.1.6
+  retrofit: ^4.2.0
+  flutter_hooks: ^0.20.5
+  equatable: ^2.0.5
+  get_it: ^7.7.0
+  intl: ^0.19.0
+  firebase_core: ^2.24.2
+  firebase_auth: ^4.16.0
+  retrofit_generator: ^8.2.0
+  loading_animation_widget: ^1.2.1
+  just_audio: ^0.9.40
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^4.0.0
+  build_runner: ^2.4.12
+
+flutter:
+
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+    - assets/audios/
+
+  fonts:
+    - family: OpenSans
+      fonts:
+        - asset: assets/fonts/OpenSans-Bold.ttf
+          weight: 600
+        - asset: assets/fonts/OpenSans-Italic.ttf
+        - asset: assets/fonts/OpenSans-Regular.ttf
