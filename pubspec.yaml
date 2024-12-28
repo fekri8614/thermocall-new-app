@@ -33,6 +33,7 @@ dependencies:
   retrofit_generator: ^8.2.0
   loading_animation_widget: ^1.2.1
   just_audio: ^0.9.40
+  logger: ^2.5.0
 
 dev_dependencies:
   flutter_test:

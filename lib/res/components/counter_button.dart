@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class CounterButton extends StatefulWidget {
-  CounterButton({
+  const CounterButton({
     super.key,
-    required this.counter,
+    required this.initialCounter,
     required this.onCounterValueChanged,
   });
 
@@ -11,23 +11,29 @@ class CounterButton extends StatefulWidget {
   State<CounterButton> createState() => _CounterButtonState();
 
   final void Function(int) onCounterValueChanged;
-  int counter;
+  final int initialCounter;
 }
 
 class _CounterButtonState extends State<CounterButton> {
+  late int _counter;
+
+  @override
+  void initState() {
+    super.initState();
+    _counter = widget.initialCounter;
+  }
+
   void _incrementCounter() {
     setState(() {
-      widget.counter++;
-      widget
-          .onCounterValueChanged(widget.counter); // Call the callback function
+      _counter++;
+      widget.onCounterValueChanged(_counter); // Call the callback function
     });
   }
 
   void _decrementCounter() {
     setState(() {
-      widget.counter--;
-      widget
-          .onCounterValueChanged(widget.counter); // Call the callback function
+      _counter--;
+      widget.onCounterValueChanged(_counter); // Call the callback function
     });
   }
 
@@ -36,32 +42,19 @@ class _CounterButtonState extends State<CounterButton> {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          AnimatedOpacity(
-            opacity: widget.counter != 0 ? 1.0 : 0.0,
-            duration: const Duration(milliseconds: 500),
-            child: Text(
-              '${widget.counter}',
-              style: const TextStyle(
-                fontSize: 48.0,
-                color: Colors.black,
-              ),
-            ),
-          ),
-          const SizedBox(height: 20.0),
+        children: <Widget>[
+          Text('Counter: $_counter'),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              FloatingActionButton(
+            children: <Widget>[
+              ElevatedButton(
                 onPressed: _decrementCounter,
-                backgroundColor: Colors.blue,
-                child: const Icon(Icons.remove),
+                child: const Text('-'),
               ),
-              const SizedBox(width: 20.0),
-              FloatingActionButton(
+              const SizedBox(width: 10),
+              ElevatedButton(
                 onPressed: _incrementCounter,
-                backgroundColor: Colors.purple,
-                child: const Icon(Icons.add),
+                child: const Text('+'),
               ),
             ],
           ),

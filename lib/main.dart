@@ -21,8 +21,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'ThermoCall',
         themeMode: ThemeMode.system,
-        theme: AppTheme().lightTheme(),
-        darkTheme: AppTheme().darkTheme(),
+        theme: appTheme(),
         home: ContainerScreen(),
       ),
     );

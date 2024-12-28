@@ -4,15 +4,19 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
+import 'package:logger/logger.dart';
 import 'package:thermocall_new2/data/app_exceptions.dart';
 import 'package:thermocall_new2/data/network/base_api_services.dart';
 
 class NetworkApiServices extends BaseApiServices {
+  final Logger _logger = Logger();
+  final int timeoutDuration;
+
+  NetworkApiServices({this.timeoutDuration = 10});
+
   @override
   Future getApi({required String url, required String userId}) async {
-    if (kDebugMode) {
-      print("GET url +> $url");
-    }
+    _logger.d("GET url +> $url");
 
     dynamic responseJson;
 
@@ -20,12 +24,17 @@ class NetworkApiServices extends BaseApiServices {
       final response = await http.get(
         Uri.parse(url),
         headers: {"user-id": userId},
-      ).timeout(const Duration(seconds: 10));
+      ).timeout(Duration(seconds: timeoutDuration));
       responseJson = returnResponse(response);
     } on SocketException {
-      throw InternetException('');
-    } on RequestTimeOut {
-      throw TimeoutException('');
+      _logger.e("No Internet connection");
+      throw InternetException('No Internet connection');
+    } on TimeoutException {
+      _logger.e("Request timed out");
+      throw TimeoutException('Request timed out');
+    } catch (e) {
+      _logger.e("Unexpected error: $e");
+      throw Exception('Unexpected error: $e');
     }
 
     return responseJson;
@@ -37,28 +46,31 @@ class NetworkApiServices extends BaseApiServices {
     data,
     required String userId,
   }) async {
-    if (kDebugMode) {
-      print("POST url +> $url");
-      print("POST data +> $data");
-    }
+    _logger.d("POST url +> $url");
+    _logger.d("POST data +> $data");
 
     dynamic responseJson;
 
     try {
-      final response = await http.post(
-        Uri.parse(url),
-        body: data,
-        headers: {"user-id": userId},
-      ).timeout(const Duration(seconds: 10));
+      final response = await http
+          .post(
+            Uri.parse(url),
+            headers: {"user-id": userId, "Content-Type": "application/json"},
+            body: data,
+          )
+          .timeout(Duration(seconds: timeoutDuration));
       responseJson = returnResponse(response);
     } on SocketException {
-      throw InternetException('');
-    } on RequestTimeOut {
-      throw RequestTimeOut('');
+      _logger.e("No Internet connection");
+      throw InternetException('No Internet connection');
+    } on TimeoutException {
+      _logger.e("Request timed out");
+      throw TimeoutException('Request timed out');
+    } catch (e) {
+      _logger.e("Unexpected error: $e");
+      throw Exception('Unexpected error: $e');
     }
-    if (kDebugMode) {
-      print("RESPONSE-JSON +> $responseJson");
-    }
+
     return responseJson;
   }
 
